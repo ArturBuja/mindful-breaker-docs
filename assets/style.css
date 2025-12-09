@@ -24,7 +24,6 @@ h1, h2 {
     color: var(--primary-color);
 }
 
-/* Styl dla rozwijanego FAQ */
 details {
     background-color: var(--card-bg);
     border: 1px solid #e0e0e0;
@@ -42,13 +41,12 @@ details[open] {
 
 summary {
     font-weight: bold;
-    list-style: none; /* Ukrywa domyślny trójkącik */
+    list-style: none; 
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Własna strzałka */
 summary::after {
     content: '+';
     font-size: 1.5em;
@@ -59,7 +57,6 @@ details[open] summary::after {
     content: '-';
 }
 
-/* Nawigacja (prosta belka) */
 nav {
     margin-bottom: 40px;
     padding: 10px;
