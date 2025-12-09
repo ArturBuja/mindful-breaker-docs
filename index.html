@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mindful Breaker - Redirect</title>
+    <title>Mindful Breaker - Redirecting...</title>
     <style>
-        body { font-family: 'Roboto', sans-serif; text-align: center; padding: 50px; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; color: #333; background-color: #FDFBFE; }
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #7E57C2;
@@ -13,51 +13,67 @@
             animation: spin 1s linear infinite; margin: 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        a { color: #7E57C2; text-decoration: none; font-weight: bold; margin: 0 5px; }
-        .manual-links { margin-top: 30px; font-size: 0.9em; line-height: 1.8; }
+        a { color: #7E57C2; text-decoration: none; font-weight: bold; margin: 0 8px; }
+        .manual-links { margin-top: 40px; font-size: 0.9em; line-height: 1.8; color: #666; }
+        h1 { color: #7E57C2; font-size: 1.5em; }
     </style>
     <script>
-        function redirect() {
-            // 1. Wykryj język użytkownika (np. "pl", "en", "de")
+        async function smartRedirect() {
             var userLang = navigator.language || navigator.userLanguage; 
             userLang = userLang.substring(0, 2).toLowerCase();
 
-            var supportedLangs = ["pl", "en", "de", "es", "fr", "it", "pt"];
-            
-            if (!supportedLangs.includes(userLang)) {
-                userLang = "en";
-            }
-
             const urlParams = new URLSearchParams(window.location.search);
             const pageType = urlParams.get('page');
+            
+            var filename = (pageType === "faq") ? "faq.html" : "privacy.html";
 
-            var targetFile = "privacy.html"; 
+            var targetPath = userLang + "/" + filename;
+            var defaultPath = "en/" + filename;
 
-            if (pageType === "faq") {
-                targetFile = "faq.html";
-            } else if (pageType === "privacy") {
-                targetFile = "privacy.html";
+            if (userLang === "en") {
+                window.location.href = defaultPath;
+                return;
             }
 
-            window.location.href = userLang + "/" + targetFile;
+            try {
+                let response = await fetch(targetPath, { method: 'HEAD' });
+
+                if (response.ok) {
+                    window.location.href = targetPath;
+                } else {
+                    console.warn(targetPath + " not found. Redirecting to English default.");
+                    window.location.href = defaultPath;
+                }
+            } catch (error) {
+                console.error("Check failed", error);
+                window.location.href = defaultPath;
+            }
         }
 
-        window.onload = redirect;
+        window.onload = smartRedirect;
     </script>
 </head>
 <body>
 
     <div class="loader"></div>
-    <p>Redirecting...</p>
+    <h1>Mindful Breaker</h1>
+    <p>Detecting your language...</p>
     
     <div class="manual-links">
-        <p>If not redirected automatically:</p>
+        <p>If you are not redirected automatically within a few seconds, please choose manually:</p>
+        
+        <hr style="border: 0; border-top: 1px solid #eee; width: 50%; margin: 20px auto;">
         
         <strong>Privacy Policy:</strong><br>
-        <a href="en/privacy.html">EN</a> | <a href="pl/privacy.html">PL</a> | <a href="de/privacy.html">DE</a>
+        <a href="en/privacy.html">English</a>
+        <a href="pl/privacy.html">Polski</a>
+        <a href="de/privacy.html">Deutsch</a>
         <br><br>
+        
         <strong>FAQ:</strong><br>
-        <a href="en/faq.html">EN</a> | <a href="pl/faq.html">PL</a> | <a href="de/faq.html">DE</a>
+        <a href="en/faq.html">English</a>
+        <a href="pl/faq.html">Polski</a>
+        <a href="de/faq.html">Deutsch</a>
     </div>
 
 </body>
