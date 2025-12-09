@@ -1,0 +1,81 @@
+:root {
+    --primary-color: #7E57C2; 
+    --background-color: #FDFBFE;
+    --text-color: #1C1B1F;
+    --card-bg: #FFFFFF;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+h1, h2 {
+    color: var(--primary-color);
+}
+
+/* Styl dla rozwijanego FAQ */
+details {
+    background-color: var(--card-bg);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+details[open] {
+    border-color: var(--primary-color);
+}
+
+summary {
+    font-weight: bold;
+    list-style: none; /* Ukrywa domyślny trójkącik */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Własna strzałka */
+summary::after {
+    content: '+';
+    font-size: 1.5em;
+    color: var(--primary-color);
+}
+
+details[open] summary::after {
+    content: '-';
+}
+
+/* Nawigacja (prosta belka) */
+nav {
+    margin-bottom: 40px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+nav a.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Breaker - Redirect</title>
+    <style>
+        body { font-family: 'Roboto', sans-serif; text-align: center; padding: 50px; color: #333; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #7E57C2;
+            border-radius: 50%; width: 40px; height: 40px;
+            animation: spin 1s linear infinite; margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        a { color: #7E57C2; text-decoration: none; font-weight: bold; margin: 0 5px; }
+        .manual-links { margin-top: 30px; font-size: 0.9em; line-height: 1.8; }
+    </style>
+    <script>
+        function redirect() {
+            // 1. Wykryj język użytkownika (np. "pl", "en", "de")
+            var userLang = navigator.language || navigator.userLanguage; 
+            userLang = userLang.substring(0, 2).toLowerCase();
+
+            var supportedLangs = ["pl", "en", "de", "es", "fr", "it", "pt"];
+            
+            if (!supportedLangs.includes(userLang)) {
+                userLang = "en";
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageType = urlParams.get('page');
+
+            var targetFile = "privacy.html"; 
+
+            if (pageType === "faq") {
+                targetFile = "faq.html";
+            } else if (pageType === "privacy") {
+                targetFile = "privacy.html";
+            }
+
+            window.location.href = userLang + "/" + targetFile;
+        }
+
+        window.onload = redirect;
+    </script>
+</head>
+<body>
+
+    <div class="loader"></div>
+    <p>Redirecting...</p>
+    
+    <div class="manual-links">
+        <p>If not redirected automatically:</p>
+        
+        <strong>Privacy Policy:</strong><br>
+        <a href="en/privacy.html">EN</a> | <a href="pl/privacy.html">PL</a> | <a href="de/privacy.html">DE</a>
+        <br><br>
+        <strong>FAQ:</strong><br>
+        <a href="en/faq.html">EN</a> | <a href="pl/faq.html">PL</a> | <a href="de/faq.html">DE</a>
+    </div>
+
+</body>
+</html>
