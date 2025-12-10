@@ -100,23 +100,17 @@
         const supportedLangs = ['en', 'pl', 'de', 'es', 'fr', 'it', 'pt'];
 
         const smartRedirect = () => {
-            // 1. Wykryj język użytkownika
             const navLang = navigator.language || navigator.userLanguage; 
             const userLang = navLang.substring(0, 2).toLowerCase();
 
-            // 2. Pobierz parametr strony (np. ?page=faq)
             const urlParams = new URLSearchParams(window.location.search);
             const pageType = urlParams.get('page');
             
-            // Domyślnie Privacy Policy, chyba że wybrano FAQ
             const filename = (pageType === "faq") ? "faq.html" : "privacy.html";
 
-            // 3. Ustal ścieżki
             const targetPath = `${userLang}/${filename}`;
             const defaultPath = `en/${filename}`;
 
-            // 4. Logika przekierowania
-            // Jeśli język jest na liście wspieranych -> idź tam. W przeciwnym razie -> angielski.
             if (supportedLangs.includes(userLang)) {
                 window.location.href = targetPath;
             } else {
