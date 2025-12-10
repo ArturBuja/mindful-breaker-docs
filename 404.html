@@ -116,20 +116,24 @@
             }
         };
 
-        function setLanguageAndRedirect() {
+        const setLanguageAndRedirect = () => {
             const userLang = navigator.language || navigator.userLanguage;
             const langCode = userLang.substring(0, 2).toLowerCase();
 
             const content = translations[langCode] || translations['en'];
 
-            document.getElementById('text-h2').innerHTML = content.h2;
-            document.getElementById('text-p').innerHTML = content.p;
-            document.getElementById('text-btn').innerText = content.btn;
+            const h2Element = document.getElementById('text-h2');
+            const pElement = document.getElementById('text-p');
+            const btnElement = document.getElementById('text-btn');
 
-            setTimeout(function() {
+            if (h2Element) h2Element.innerHTML = content.h2;
+            if (pElement) pElement.innerHTML = content.p;
+            if (btnElement) btnElement.innerText = content.btn;
+
+            setTimeout(() => {
                 window.location.href = "https://ArturBuja.github.io/mindful-breaker-docs/";
             }, 3000);
-        }
+        };
 
         window.onload = setLanguageAndRedirect;
     </script>
