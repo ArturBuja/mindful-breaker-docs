@@ -5,50 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindful Breaker - Redirecting...</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; color: #333; background-color: #FDFBFE; }
+        :root {
+            --primary: #7E57C2;
+            --bg: #FDFBFE;
+            --text: #1C1B1F;
+            --secondary-text: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 50px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #7E57C2;
-            border-radius: 50%; width: 40px; height: 40px;
-            animation: spin 1s linear infinite; margin: 20px auto;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        a { color: #7E57C2; text-decoration: none; font-weight: bold; margin: 0 8px; }
-        .manual-links { margin-top: 40px; font-size: 0.9em; line-height: 1.8; color: #666; }
-        h1 { color: #7E57C2; font-size: 1.5em; }
+
+        .manual-links {
+            margin-top: 40px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--secondary-text);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links-column {
+            text-align: left;
+        }
+
+        .links-column strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin: 5px 0;
+            transition: opacity 0.2s;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            width: 100%;
+            margin: 30px 0;
+        }
     </style>
     <script>
-        async function smartRedirect() {
-            var userLang = navigator.language || navigator.userLanguage; 
-            userLang = userLang.substring(0, 2).toLowerCase();
+        const supportedLangs = ['en', 'pl', 'de', 'es', 'fr', 'it', 'pt'];
 
+        const smartRedirect = () => {
+            // 1. Wykryj język użytkownika
+            const navLang = navigator.language || navigator.userLanguage; 
+            const userLang = navLang.substring(0, 2).toLowerCase();
+
+            // 2. Pobierz parametr strony (np. ?page=faq)
             const urlParams = new URLSearchParams(window.location.search);
             const pageType = urlParams.get('page');
             
-            var filename = (pageType === "faq") ? "faq.html" : "privacy.html";
+            // Domyślnie Privacy Policy, chyba że wybrano FAQ
+            const filename = (pageType === "faq") ? "faq.html" : "privacy.html";
 
-            var targetPath = userLang + "/" + filename;
-            var defaultPath = "en/" + filename;
+            // 3. Ustal ścieżki
+            const targetPath = `${userLang}/${filename}`;
+            const defaultPath = `en/${filename}`;
 
-            if (userLang === "en") {
-                window.location.href = defaultPath;
-                return;
-            }
-
-            try {
-                let response = await fetch(targetPath, { method: 'HEAD' });
-
-                if (response.ok) {
-                    window.location.href = targetPath;
-                } else {
-                    console.warn(targetPath + " not found. Redirecting to English default.");
-                    window.location.href = defaultPath;
-                }
-            } catch (error) {
-                console.error("Check failed", error);
+            // 4. Logika przekierowania
+            // Jeśli język jest na liście wspieranych -> idź tam. W przeciwnym razie -> angielski.
+            if (supportedLangs.includes(userLang)) {
+                window.location.href = targetPath;
+            } else {
                 window.location.href = defaultPath;
             }
-        }
+        };
 
         window.onload = smartRedirect;
     </script>
@@ -60,20 +134,33 @@
     <p>Detecting your language...</p>
     
     <div class="manual-links">
-        <p>If you are not redirected automatically within a few seconds, please choose manually:</p>
+        <p>If you are not redirected automatically within a few seconds, please choose your language manually below:</p>
         
-        <hr style="border: 0; border-top: 1px solid #eee; width: 50%; margin: 20px auto;">
+        <hr>
         
-        <strong>Privacy Policy:</strong><br>
-        <a href="en/privacy.html">English</a>
-        <a href="pl/privacy.html">Polski</a>
-        <a href="de/privacy.html">Deutsch</a>
-        <br><br>
-        
-        <strong>FAQ:</strong><br>
-        <a href="en/faq.html">English</a>
-        <a href="pl/faq.html">Polski</a>
-        <a href="de/faq.html">Deutsch</a>
+        <div class="links-container">
+            <div class="links-column">
+                <strong>Privacy Policy</strong>
+                <a href="en/privacy.html">🇬🇧 English</a>
+                <a href="pl/privacy.html">🇵🇱 Polski</a>
+                <a href="de/privacy.html">🇩🇪 Deutsch</a>
+                <a href="es/privacy.html">🇪🇸 Español</a>
+                <a href="fr/privacy.html">🇫🇷 Français</a>
+                <a href="it/privacy.html">🇮🇹 Italiano</a>
+                <a href="pt/privacy.html">🇵🇹 Português</a>
+            </div>
+
+            <div class="links-column">
+                <strong>FAQ</strong>
+                <a href="en/faq.html">🇬🇧 English</a>
+                <a href="pl/faq.html">🇵🇱 Polski</a>
+                <a href="de/faq.html">🇩🇪 Deutsch</a>
+                <a href="es/faq.html">🇪🇸 Español</a>
+                <a href="fr/faq.html">🇫🇷 Français</a>
+                <a href="it/faq.html">🇮🇹 Italiano</a>
+                <a href="pt/faq.html">🇵🇹 Português</a>
+            </div>
+        </div>
     </div>
 
 </body>
