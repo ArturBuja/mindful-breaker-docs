@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Mindful Breaker</title>
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --bg: #FDFBFE;
+            --text: #1C1B1F;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .container {
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 6rem;
+            margin: 0;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 6px rgba(126, 87, 194, 0.3);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+    <script>
+        const translations = {
+            en: {
+                h2: "Oops!",
+                p: "The page you are looking for does not exist or you entered an incorrect address.<br>Redirecting to home page...",
+                btn: "Go back now"
+            },
+            pl: {
+                h2: "Ups!",
+                p: "Strona, której szukasz, nie istnieje lub wpisałeś błędny adres.<br>Przekierowywanie do strony głównej...",
+                btn: "Wróć teraz"
+            },
+            de: {
+                h2: "Hoppla!",
+                p: "Die Seite, die Sie suchen, existiert nicht oder Sie haben eine falsche Adresse eingegeben.<br>Weiterleitung zur Startseite...",
+                btn: "Jetzt zurück"
+            },
+            es: {
+                h2: "¡Ups!",
+                p: "La página que buscas no existe o has introducido una dirección incorrecta.<br>Redirigiendo a la página de inicio...",
+                btn: "Volver ahora"
+            },
+            fr: {
+                h2: "Oups !",
+                p: "La page que vous recherchez n'existe pas ou vous avez entré une adresse incorrecte.<br>Redirection vers l'accueil...",
+                btn: "Retourner maintenant"
+            },
+            it: {
+                h2: "Ops!",
+                p: "La pagina che cerchi non esiste o hai inserito un indirizzo errato.<br>Reindirizzamento alla home...",
+                btn: "Torna ora"
+            },
+            pt: {
+                h2: "Ops!",
+                p: "A página que você procura não existe ou você digitou um endereço incorreto.<br>Redirecionando para o início...",
+                btn: "Voltar agora"
+            }
+        };
+
+        function setLanguageAndRedirect() {
+            const userLang = navigator.language || navigator.userLanguage;
+            const langCode = userLang.substring(0, 2).toLowerCase();
+
+            const content = translations[langCode] || translations['en'];
+
+            document.getElementById('text-h2').innerHTML = content.h2;
+            document.getElementById('text-p').innerHTML = content.p;
+            document.getElementById('text-btn').innerText = content.btn;
+
+            setTimeout(function() {
+                window.location.href = "https://ArturBuja.github.io/mindful-breaker-docs/";
+            }, 3000);
+        }
+
+        window.onload = setLanguageAndRedirect;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        
+        <h2 id="text-h2">Oops!</h2>
+        
+        <p id="text-p">
+            The page you are looking for does not exist or you entered an incorrect address.<br>
+            Redirecting to home page...
+        </p>
+        
+        <div class="loader"></div>
+
+        <a href="https://ArturBuja.github.io/mindful-breaker-docs/" class="btn" id="text-btn">Go back now</a>
+    </div>
+</body>
+</html>
